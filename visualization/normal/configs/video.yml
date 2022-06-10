@@ -1,0 +1,40 @@
+
+ARGS:
+ tab: 'process_video'
+ gpu: 4,5
+
+ video : True
+ predict: False
+ backbone: 'resnet'
+ model_precision: 'fp32'
+ val_batch_size: 1
+ data_slide_len: 8 # 1,8
+ data_gate: 1
+ batch_size: 1
+ nw: 4
+ model_path:  trained_models/normal_resnet_cm64_V1_hrnet_val_cache.pkl
+ # ori:ROMP_ResNet50_V1_ft_3DPW
+ # NAT:resnet_cm64_V1_hrnet_val_cache
+ # normal:normal_resnet_cm64_V1_hrnet_val_cache.pkl
+
+ #模型貌似只能放在 trained_models 下才能读取到
+ smpl_mesh_root_align: False
+ centermap_conf_thresh: 0.2
+
+ to_frame: False
+ make_tracking: False
+ temporal_optimization: False
+ smooth_coeff: 4.
+ show_largest_person_only: False
+ show_mesh_stand_on_image: False
+ soi_camera: 'far' # 'close' # 'far'
+ renderer: 'pyrender' # 'pyrender' 'pytorch3d'
+
+ inputs: 'demo\\videos\\sample_video.mp4' # None
+ output_dir: 'demo\\sample_video_results\\'
+ save_mesh: False
+ save_centermap: True
+ save_dict_results: False
+ save_visualization_on_img: True
+ fps_save: 24
+ mesh_cloth: 'ghostwhite'  #'LightCyan'
