@@ -1,0 +1,643 @@
+% Please refer README file for more details about this document
+
+\documentclass[twoside,twocolumn]{article}
+
+\usepackage{tabulary,graphicx,times,caption,fancyhdr,amsfonts,amssymb,amsbsy,latexsym,amsmath,algorithm,algorithmic}
+\usepackage[utf8]{inputenc}
+\usepackage{url,multirow,morefloats,floatflt,cancel,tfrupee,textcomp,colortbl,xcolor,pifont,makecell,cleveref,indentfirst}
+\usepackage[nointegrals]{wasysym}
+\urlstyle{rm}
+
+\makeatletter
+
+%Etal definition in references
+\usepackage{ifxetex}
+\ifxetex\else
+  \usepackage{dblfloatfix}
+\fi
+
+\@ifundefined{subparagraph}{
+\def\subparagraph{\@startsection{paragraph}{5}{2\parindent}{0ex plus 0.1ex minus 0.1ex}%
+{0ex}{\normalfont\small\itshape}}%
+}{}
+
+\def\URL#1#2{\@ifundefined{href}{#2}{\href{#1}{#2}}}
+
+%%For url break
+\def\UrlOrds{\do\*\do\-\do\~\do\'\do\"\do\-}%
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+
+\makeatother
+\def\floatpagefraction{0.8} 
+\def\dblfloatpagefraction{0.8}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[paperheight=11in,paperwidth=8.3in,margin=2.5cm,headsep=.7cm,top=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\def\floatpagefraction{0.8}
+\widowpenalty 10000
+\clubpenalty 10000
+
+\renewenvironment{abstract}
+	{\trivlist\item[]\leftskip0pt\par\vskip4pt\noindent
+  	\textbf{\abstractname}\mbox{\null}\\}
+	{\par\noindent\endtrivlist}
+
+\def\keywords#1{\par\medskip\par\noindent\textbf{Keywords}: #1\par}
+
+\linespread{1.13} \date{} \emergencystretch 8pt
+
+\captionsetup[figure]{labelfont=normal,skip=1.4pt,aboveskip=1pc}
+\captionsetup[table]{labelfont=normal,skip=1.4pt}
+
+\makeatletter
+\def\author#1{\gdef\@author{\hskip-\tabcolsep%
+	\parbox{\textwidth}{\raggedright\bfseries#1\\[1pc]}}}
+\def\address[#1]#2{\g@addto@macro\@author{\\\hskip-\tabcolsep\parbox{\textwidth}{\raggedright%
+	\normalsize\normalfont\textsuperscript{#1}#2}}}
+\let\addresslink\textsuperscript
+\def\correspondence#1{\g@addto@macro\@author{\\\hskip-\tabcolsep\parbox{\textwidth}{\raggedright%
+	\vspace*{10pt}\normalsize\normalfont~\\#1~\\[12pt]}}}
+\def\email#1{\g@addto@macro\@author{\\\hskip-\tabcolsep\parbox{\textwidth}{\raggedright%
+	\normalsize\normalfont Emails: #1}}}
+
+\def\title#1{\gdef\@title{\vspace*{-30pt}%
+	\raggedright\textbf{\@journaltitle}~\\%
+  \raggedright\bfseries\ifx\@articleType\@empty\vspace*{20pt}\else%
+  \vspace*{20pt}\@articleType\vspace*{20pt}\\\fi#1}}
+\let\@journaltitle\@empty \def\journaltitle#1{\gdef\@journaltitle{{\normalfont\itshape#1}}}
+\let\@articleType\@empty \def\articletype#1{\gdef\@articleType{{\normalfont\itshape#1}}}
+
+\let\@runningHead\@empty \def\RunningHead#1{\gdef\@runningHead{{\normalfont #1}}}
+
+\usepackage{fancyhdr}
+\fancypagestyle{headings}{\renewcommand{\headrulewidth}{0pt}\fancyhf{}
+  \fancyhead[R]{\itshape\@runningHead}
+  \fancyfoot[C]{\thepage}}
+\pagestyle{headings}
+
+\fancypagestyle{plain}{\renewcommand{\headrulewidth}{0pt}%
+	\fancyhf{}\fancyhead[R]{\LaTeX\ template for Hindawi journal articles}
+  \fancyfoot[C]{\thepage}}
+\makeatother
+
+\usepackage[%
+	numbers,sort&compress%
+	%authoryear
+  ]{natbib}
+
+\setcounter{secnumdepth}{0}
+\usepackage{float,xcolor}
+
+\journaltitle{Wireless Communications and Mobile Computing}
+\articletype{Research Article} % Research Article/Review Article/Clinical Study
+
+\begin{document}
+
+% Title of the document
+\title{FedCD:Federated Learning Mechanism for Coarse-grained Data}
+
+% Author names
+\author{%
+	Yingwei Hou\addresslink{1},
+  	Haoyuan Li\addresslink{2} and
+  	Linlin You\addresslink{*}
+    }
+		
+% Affiliation
+\address[1,2]{Sun Yat-Sen University}
+%\address[2]{Sun Yat-Sen University}
+
+% Corresponding author details
+\correspondence{Correspondence should be addressed to Linlin You; youllin@mail.sysu.edu.cn}
+
+% Emails of authors
+\email{houyw5@mail2.sysu.edu.cn(Yingwei Hou);lihy285@mail2.sysu.edu.cn(Haoyuan Li)}%
+
+% Running Head
+\RunningHead{Wireless Communications and Mobile Computing}
+
+\maketitle 
+\setlength{\parindent}{2em}
+% Abstract
+\begin{abstract}
+	With the development of edge computing and Internet of Things (IoT), the computing power of edge devices continues to increase, and the data obtained is more specific and private. Methods based on federated learning (FL) can help to utilize the widely existing edge data in a private-preserving way and to train a shareable global model in a collaborative manner. However, the coarse-grained data from edge devices poses a huge challenge to FL, as data features extracted from uneven, biased, and incomplete samples complexify the model aggregation process for well-performing models. Such that, a new asynchronous FL Mechanism, called FedCD, is proposed to support FL on coarse-grained data. In general, FedCD not only considers the temporal inconsistency in asynchronous learning but also measures the informative differences in coarse-grained data to support FL in an asynchronous and heterogeneous environment. In addition, while comparing three baselines (i.e., FedAvg, FedAsync and FedMPVA) on three standard datasets (i.e., MNIST, FMNIST and CIFAR-10), FedCD can achieve the highest model accuracy, and can save communication cost and time by about 32.1\% and 31.9\%, respectively, in a multi-device collaboration environment. 
+
+% Keywords - if any
+\keywords{Federated Learning; Asynchronous Federated Learning; Coarse-grained Data; Multi-Device collaboration scenario}
+\end{abstract}
+    
+% First level heading
+\section{1. Introduction}
+
+	A large number of independent and valuable personal data rely on the advanced ICT (information and communication technology), electronics, storage and other technologies to continuously generate and save. Relying on the existing technology, the unparalleled performance and effect of machine learning and artificial intelligence on massive data have been witnessed. However, in recent years, how to deal with user privacy data such as mobile phones and autonomous vehicle sensors has attracted extensive attention. The General Data Protection Regulation(GDPR) Act promulgated by the European Union also puts forward restrictions on direct data exchange between entities to protect personal data from infringement. FL is a learning framework proposed by Google, which can effectively help multiple institutions conduct data use and machine learning modeling under the requirements of user privacy protection, data security and government regulations. In FL, learning participants participate in model training through local training and parameters uploading, and the server receives model parameters from users and aggregates them for the global model. Through non real data transmission and decentralized training process, FL can protect users' privacy and reduce the burden on the central server. In view of the above advantages, FL has been widely used in various occasions, e.g., (1) in the COVID-19 detection, to carry out coronavirus disease detection based on the user's chest CT image, while protecting the user's medical data and personal privacy information~\cite{kumar2021blockchain}; (2) In the field of automatic driving, are used to make the automatic driving habit more adapt to the real driving conditions and protect the sensitive information using the real driving data from users~\cite{li2021privacy}; (3) to realize the migration learning with traffic and memory constraints on resource constrained microcontrollers~\cite{kopparapu2022tinyfedtl}.
+	
+	However, the existing research and application of FL still focus on experiments under ideal conditions. Because the simulated client training time is close, the synchronous aggregation method are studied to improve the performance of the model under a stand-alone environment. In reality, due to the differences in computing resources and data sizes between users, FL using synchronous methods may become stagnant and unable to learn a shareable model. Therefore, FL in asynchronous mode starts to be discussed as a novel approach to aggregate local updates from the clients seamlessly without predefined conditions about synchronization. Such that, The client who has completed the training first can immediately start the next round of training without waiting. Moreover, due to the difference of user's local data size, communication ability, computing ability and endurance ability, there may be some training participants who can not provide useful results i.e., stragglers~\cite{liu2022fed2a}, collaborating with which in synchronous mode, FL performance may deteriorate, e.g., intolerable waiting time, unstable accuracy growth. However, asynchronous aggregation method can eliminate the influence of stragglers, which is more in line with the real training scenario while using devices with heterogeneous capability and availability.
+
+	The existing work has preliminarily explored the asynchronous aggregation mode of the federated learning system [5]. Although they can adapt to common non-IID user data, their deployment environment still faces two challenges, namely:
+	\begin{itemize}
+	\item \emph{How to adapt to the coarse particle size data under real conditions?}
+	Most users of FL services use \emph{Coarse-grained Data}, i.e., data with small amount, insufficient coverage of categories and uneven distribution among categories, for training. However, the internal strategy of the existing aggregation algorithm implicitly makes a balance assumption on the characteristics of user data, and cannot pay more attention to users carrying high quality data. In real deployment scenarios, aggregation algorithms cannot distinguish users according to data characteristics, which may lead to longer training time, model performance degraded and communication cost increased.
+	\item \emph{How to maintain the aggregation performance under the real communication mechanism?}
+	The actual application scenarios need to face the actual communication mechanism deployment, the limited communication cost of the client and the possible disconnection. Therefore, the construction of communication mechanism and the experiment in its communication environment are very essential.
+	\end{itemize}
+	
+	To meet the above challenges, this paper proposes FedCD: Federated learning mechanism for Coarse-grained Data. Specifically, according to the data characteristics of coarse-grained data,  it complements the category weight and datasize weight representing the user's data distribution and data volume to adapt to the user's coarse-grained data distribution based on the time weighted aggregation strategy. At the same time, to be closer to the FL process in the real situation, we designed and implemented a comparative experiment of different aggregation strategies under multiple machines to further illustrate the aggregation performance of FedCD.
+		
+	In summary, our main contributions are as follows: 
+	
+	
+	
+	\begin{itemize}
+	\item We design a new asynchronous aggregation mechanism to support federated learning in the context with heterogeneous devices and coarse-grained data. It can not only simplify the deployment of FL and also reduce communication cost;
+	\item We use Docker and RESTful APIs to build a FL Multi-Devices experimental framework, which is adaptive to various heterogeneous devices and reduces the difficulty of actual deployment.
+	\item We conducted an overall experiment to evaluate FedCD based on three standard datasets, i.e, MNIST, FMNIST and CIFAR-10. Compared with the three baselines, i.e.,  FedAvg, FedAsync and FedMPVA, FedCD can (1) reduce the communication cost by 32.1\%, and (2) improve the training speed by 31.9\% simultaneously.
+	\end{itemize}
+	
+\newcommand{\tabincell}[2]{\begin{tabular} {@{}#1@{}}#2 \end{tabular}}
+\begin{table*}\small
+\renewcommand{\arraystretch}{1}
+\setlength\tabcolsep{4pt}
+\caption{The overview of reviewed works ($\bigcirc$, not supported; $\Box$, not indicated) }\label{tab1}
+\centerline{\begin{tabular}{ c | c  c | c  c  c }
+    \hline %\tabincell{c}{
+    \multirow{2}{*}{Related Work} & \multicolumn{2}{c|}{\tabincell{c}{Communication\\Environment}} & \multicolumn{3}{c}{Aggregation Schemes} \\
+    \cline{2-6}
+    &\ \ \ SA\ \ \   & MD & TW & IW & DW\\
+    \hline	
+    Xie et al.~\cite{xie2019asynchronous} & $\checkmark$ & $\Box$ & \tabincell{c}{Exp/polynomial/\\inverse/hinge\\delay function} & $\bigcirc$ & $\bigcirc$ \\
+    %\hline
+    Chen et al.~\cite{chen2019communication} & $\checkmark$ & $\Box$ & Exp delay function & $\bigcirc$ & $\bigcirc$ \\
+    %\hline
+    Wang et al.~\cite{wang2021reputation}  & $\checkmark$ & $\Box$ & $\bigcirc$ & Reputation-based & $\bigcirc$ \\
+    %\hline
+    Chen et al.~\cite{chen2021dynamic}  & $\checkmark$ & $\Box$ & $\bigcirc$ & Quantization-driven & $\bigcirc$ \\
+    %\hline
+    Wang et al.~\cite{wang2020attention}  & $\checkmark$ & $\Box$ & $\bigcirc$ & Attention-based & $\bigcirc$ \\
+    %\hline
+    Li et al.~\cite{li2021auto}  & $\checkmark$ & $\Box$ & $\bigcirc$ & Empirical risk-based & $\bigcirc$ \\
+    %\hline
+    Sheng et al.~\cite{liu2022fed2a}  & $\checkmark$ & $\Box$ & \tabincell{c}{Exp/inverse/log\\delay function} & \tabincell{c}{Representational\\consistency-based} & $\bigcirc$ \\
+    %\hline
+    Ek et al.~\cite{sannara2021federated}  & $\checkmark$ & $\Box$ & $\bigcirc$ & $\bigcirc$ &  \tabincell{c}{Split dataset} \\
+    %\hline
+    Lv et al.~\cite{lv2021data}  & $\checkmark$  & $\Box$ & $\bigcirc$ & $\bigcirc$ &  \tabincell{c}{Clear stragglers} \\
+    %\hline
+    Cho et al.~\cite{cho2021personalized}  & $\Box$  & Ethernet & $\bigcirc$ & $\bigcirc$ &  $\bigcirc$ \\
+    %\hline
+    Kavya et al.~\cite{kopparapu2022tinyfedtl}  & $\Box$  & Serial-port driven & $\bigcirc$ & $\bigcirc$ &  $\bigcirc$ \\
+    %\hline
+    Gao et al.~\cite{gao2021fedim}  & $\checkmark$  & $\Box$ & $\bigcirc$ & $\bigcirc$ &  $\bigcirc$ \\
+    %\hline
+    FedCD(Proposed) & $\checkmark$ & Network-based & Exp delay function &  Entropy-based & Measure Datasize \\
+    \hline
+  \end{tabular}}
+\end{table*}
+	
+	The rest of this paper is organized as follows. Firstly, Section 2 summarizes the related work about Coarse-grained Data integration and model aggregation optimization. Secondly, FedCD is introduced and evaluated in Section 3 and 4, respectively. Finally, Section 5 summarizes the work and outlines the future research direction.
+
+\section{2. Related Work}
+	To improve the aggregation performance and learning speed of FL framework, the aggregation weight according to different data attributes in the global aggregation stage, and the communication environment for aggregation strategy experiment is studied.
+
+\subsection{2.1 Aggregation Weights Optimization}
+	In general, when updating the global model, it’s a significant challenge that how to design weighted strategy to calculate the aggregation weight of different clients to make the global model updated effectively. To this end, we identify the following three main factors that affect aggregation weights:
+	
+	\textbf{Time heterogeneity}\ stands for the gap between the time of the client of obtaining the global model to train and the time of uploading local model to the server. This factor can measure the staleness of the local model.
+	
+	Since the upload time of model parameters on the client is inconsistent in the asynchronous aggregation method, several temporary weighted strategies are proposed to alleviate the upload delay between models. Xie et al.~\cite{xie2019asynchronous} obtained the weights of different models during aggregation according to the mixed super parameters of the time interval of the client uploading the model, the training start of the local model and the receiving time. Fed2A~\cite{liu2022fed2a} expanded the time weight aggregation strategy and added more adaptive strategies to reduce communication costs and improve model performance.
+
+	\textbf{Information heterogeneity}\ stands for the difference of different types of data in the local dataset, which is used by client to train the local model. This factor can measure the generalized performance of the local model.
+	
+	Due to the different information quality given by training participants, an information gain weight is proposed to distinguish user quality according to the data used by participants. Chen et al.~\cite{chen2021dynamic} proposed a quantization driven algorithm to allocate weights by using the quantization error reported by the client; Li et al.~\cite{li2021auto} introduced a scheme based on empirical risk, which automatically adjusts the weight by evaluating the reliability and damage degree of local data; Wang et al.~\cite{wang2021reputation} proposed an aggregation strategy to allocate weight based on estimating the contribution of customers; Wang et al.~\cite{wang2020attention} designed an antenna based strategy to optimize the aggregation weight by avoiding the imbalance of the local model.
+
+	\textbf{Datasize heterogeneity}\ stands for the difference between the dataset used by different clients in training local models, which can measure the data richness of different edge devices.The data size of the client directly affects the performance of the training model. 
+	
+	How to measure the size of the client data indirectly or implicitly is studied.FedDist~\cite{sannara2021federated}divides all data into local test set, local training set and global test set, and gets the weight according to the performance of the model on the three datasets.Fed-PCA~\cite{lv2021data} enhances user noise tolerance by identifying stragglers among users.
+\subsection{2.2 Communication Environment}
+	The ideal communication environment is easy to collect experimental data, so most of the existing work simulates the aggregation and training process of Federated learning under simulation conditions, i.e., Stand-Alone(SA) environment.In contrast, the mode based on physical multiple machines call Multi-Devices(MD).
+	
+	Cho et al.~\cite{cho2021personalized} used Ethernet to connect the client and server, and deployed the training process to each machine for simulation. Kavya et al.~\cite{kopparapu2022tinyfedtl} connect multiple development boards through serial ports to send data and receive models. FedIM~\cite{gao2021fedim} simulates the FL training process of multiple clients based on the simulation platform.
+
+	To sum up, as shown in Table~\ref{tab1}, to obtain the best aggregation results for the FL framework, different temporary information and weighted strategies are proposed to measure the training speed and data quality, so as to optimize the aggregation process to improve performance and reduce the number of iterations. However, facing the coarse-grained data of users in the real scene, these strategies lack a comprehensive measurement of the distribution of user data, and can not distinguish better clients, resulting in global model performance compromised and longer training time. Therefore, this paper proposes a new FL mechanism called FedCD, which can adapt to coarse-grained and unevenly distributed user data in real scenes.
+
+\section{3. The proposed FedCD}
+	This Section first describes problem formulation and then introduces the two entities and procedure of Asynchronous Federated Learning(AFL) procedure implemented in FedCD. Moreover, we will introduce the communication mechanism between the clients and the server under the Multi-Devices environment of FedCD. Finally, three local weighted strategies of FedCD, i.e., Datasize Weighted strategy(DW), Time Weighted strategy(TW), and Information Weighted strategy(IW), are presented.  For the sake of readability , the notations used in this Section are summarized in Table~\ref{tab2}.
+%
+\begin{table}\small
+\renewcommand{\arraystretch}{1}
+\setlength\tabcolsep{4pt}
+%\begin{center}
+\caption{The notations used in FedCD.}\label{tab2}
+\centerline{\begin{tabular}{c  l }
+	\hline
+	$\textbf{Notation}$ & $\textbf{Description}$ \\
+	\hline
+	$D_{k}$ & The local dataset of client \emph{k} \\
+	%\hline
+	$\emph{r}$ & The $r^{th}$ global rounds\\
+	%\hline
+	$n_k$ & The datasize of client \emph{k}\\
+	%\hline
+	$\omega_{r+1}$ & The global model of the $(r + 1)^{th}$ global round\\
+	%\hline
+	$\omega_{k}$ & The local model of client \emph{k}\\
+	%\hline
+	$p_{i,k}$ & \tabincell{l}{The proportion of category \emph{i} in the local dataset \\of client \emph{k}}\\
+	%\hline
+	$n_r$ & The total local datasize of the $r^{th}$ global model\\
+	%\hline
+	$r_k$ & The global round receive from client \emph{k}\\
+	\hline
+\end{tabular}}
+%\end{center}
+\end{table}
+\subsection{3.1 Problem Formulation}
+	We consider applying AFL in heterogeneous environments to train Deep Neural Network(DNN). Assume that there are \emph{K} clients and one server, each client \emph{k} trains DNN on its local privacy data $D_k$ with the size of $n_k$ = |$D_k$|. After client k receives the global model $\omega_r$ from the server in global round \emph{r}, it will train the local model $\omega_k$ by using a predefined optimization function \emph{f} , such as Adam, as shown by Formula (1). Note that different clients have different dataset, $D_i \neq D_j$, i $\neq$ j.
+% equation
+\begin{equation}
+\omega_{k} \leftarrow f(\omega_r,D_k)
+\end{equation} 
+
+	After reaching the iterative round of local training, client \emph{k} uploads the trained local model $\omega_k$ to server. After receiving a model parameter from client \emph{k}, the server calculates the aggregation weight of the local model with the weighted strategy, and updates the global model $\omega_{r+1}$ according to the Formula (2), where $\alpha_k$ is the aggregation weight of client \emph{k}. 
+% equation
+\begin{equation}
+\omega_{r+1} \leftarrow \sum_{k=1}^{K} \alpha_k \times \omega_k
+\end{equation}
+
+	In general, when updating the global model, it’s a significant challenge that how to design weighted strategy to calculate the aggregation weight of different clients to make the global model updated effectively. According to the three heterogeneities mentioned in Section 2.1, the aggregation weight of local model $\omega_k$ uploaded by client \emph{k} can be calculated by the Formula (3). \emph{g}(·) is the function to compute the aggregation weight for the local model of client \emph{k}, which is based on Datasize heterogeneity, Time heterogeneity, and Information heterogeneity.\\
+% equation
+\begin{equation}
+\alpha_{k} \leftarrow \emph{g}\ ( \emph{n}_k,\emph{t}_r,\emph{p}_{i,k},r )
+\end{equation}
+
+	Moreover, under the Multi-Devices environment, the clients and server are deployed on different devices. After completing the training of the local model, the client needs to establish network communication with the server and upload the local model to the server. And after the server completes the aggregation of the global model, it also needs to delegate the global model to the corresponding client.
+%
+\begin{equation}
+server\xleftarrow{upload}\omega_k
+\end{equation}
+\begin{equation}
+\omega_{r+1}\xrightarrow{delegate} client\ \emph{k}
+\end{equation}
+
+	Therefore, this paper investigates how the server and client can effectively aggregate and update the global model with heterogeneous attributes for AFL under the Multi-Devices environment.
+\subsection{3.2 Two Entities of FedCD}
+
+	As illustrated in the Figure~\ref{fig1}, the two entities of FedCD include client and server. The specific work of each entity includes:
+%
+\begin{itemize}
+	\item Client: As the AFL clients are connected to the network to communicate with the server, client can request the global model, and  train the local model with the local privacy data on the basic of the received global model. After training the local model, client can upload the local model to the server, receive the global model after the aggregation issued by the server and continue training.
+%
+	\item Server: The AFL server can continuously receive local model uploaded by clients. After receiving a local model of a client, the server can use the aggregation strategy to update the global model, and the global model after updating is devolved to client to optimize by the server. At the same time, server can perceive whether there are much stale models in the clients. If exists, the server will devolve the recently updated global to all clients.
+\end{itemize}
+%
+\begin{figure*}
+\centerline{\includegraphics[width=5in]{FedCD framework.png}}
+\caption{Two entities and their communication mechanism of FedCD.} \label{fig1}
+\end{figure*}
+
+	In this case, compared with the synchronous aggregation algorithm, FedCD does not have to wait for all clients to upload the local model before aggregation, which can avoid the problem of low aggregation efficiency caused by some clients with poor performance. At the same time, after receiving the local model of a client, the server starts to update the global model and delegate the updated global model, which makes the efficiency of asynchronous aggregation higher, and can make more full use of the data and computing power of the client.
+
+	In the following sections, we will introduce the communication mechanism between server and client and our global model aggregation strategy.
+%
+\subsection{3.3 Communication mechanism in FedCD}
+
+	FedCD implements the process of training and aggregation under the Multi-Devices environment. In this Section, we will introduce the communication mechanism between the clients and the server under the Multi-Devices environment.
+
+	As illustrated in the Figure~\ref{fig1}, in FedCD, server and client mainly communicate through API calls. An API calls means that the client sends a request message to the server, and the server will responds according to the content of the request message and returns the requested resource. Specifically, as illustrated in Figure~\ref{fig1}, after starting communication with the server, client send a request message for the pre-train model to the server, and the server returns the pre-train model to the client. And after completing the training of the local model, the client initiates a post request to send the local model to the server, the server will returns the global model to the client after aggregation. Resources response here takes the specified data format as the form, and uses the data flow to response files. 
+
+	Moreover, APIs of FedCD follows the Rest architecture style, i.e., RESTful APIs. RESTful APIs communicate via HTTP (Hypertext Transfer Protocol). and the basic communication model of HTTP (i.e., request-response model) supports only requests from clients to server. However, when the local model is too stale, FedCD requires the server to actively push the global model to all clients. Therefore, SSE (server sent events) is introduced into FedCD to improve the communication mechanism. When the server needs to push resource information to clients, it can choose stream response. Streaming response will open a channel from the server to clients, and all clients will constantly listen to this channel to ensure that the server can push updated global model and other information. Compared with the common polling technology, SSE can improve the communication efficiency of FedCD.
+
+	In summary, under the Multi-Devices environment, the client can upload the local model to the server and the server can delegate the aggregated global model to the corresponding client through the restful API. And the server can actively push the global model and other resource information to all clients through SSE.
+
+\subsection{3.4 Aggregation strategy in FedCD}
+
+	According to the three main factors affecting aggregation weight mentioned in Section 2.1, we designed three aggregation weighted strategies, namely, Time weighted strategy, Datasize weighted strategy and Information weighted strategy.
+	
+	Moreover, if the server only saves the information of the global model, once the uploaded local model is aggregated into the global model, it cannot be modified. It can only wait for each subsequent aggregation to reduce its proportion. This may lead to the problem that clients with fast training speed frequently upload local models, causing the aggregated global model to deviate from the convergence direction of other local models~\cite{chen2021asynchronous}. In view of the shortcomings of this asynchronous aggregation mechanism, in FedCD, the AFL server saves the local models recently uploaded by all clients, and use the local models recently uploaded by all clients for the aggregation of global model each time. This method preserves the latest local models of all clients. Each client can only update its own part when uploading the local model, so as to limit the impact of frequent updates of clients with fast training speed on the global model.
+\begin{figure*}
+\centerline{\includegraphics[width=5in]{XW-graph.png}}
+\caption{The schematic diagram of DW, IW, and IW. TW(Time Weighted strategy) measuring the staleness of local model with a gradually decreasing value, IW(Information Weighted strategy) measuring the richness of local dataset with a gradually increasing value, and DW(Datasize Weighted strategy) measuring the size of local dataset with a gradually increasing value.} \label{fig2}
+\end{figure*}
+
+\subsubsection{3.4.1 TW: Time Weighted strategy} When the client receives the global model, it calls its own computing power to start training the local model, but the computing power of each client is different, and the training speed of the model is also different. As the training speed of the client is too slow, the staleness of the local model will become larger and larger, and the staleness of the local model will seriously affect the convergence of the global model. Therefore, the weight of the staler local model should be the lower in the global model aggregation, and the weight of the newer local model should be the higher in the global model aggregation, because it contains the latest information. We propose a time weighted strategy that can fully measure the staleness of local models.
+
+	As the aggregation of the global model is completed, the server will delegate the global model to the corresponding client, and the server will also record the global round when the global model is delegated to the client. When receiving the local model uploaded by the client again, the server will calculate the weight related to the staleness according to the global round of receiving local model currently and the previously recorded global round.
+
+	Accordingly, TW is defined by Formula (4), where \emph{K} indicates the number of clients; $\emph{r}_k$ indicates the global round when global model is delegated to client \emph{k}; \emph{r} indicates the global round currently received from client \emph{k}; $\alpha$ is a hyperparameter; $\emph{TW}_{k,r}$ indicates the calculated original weight, whose sum is$\emph{TW}_r$; $\overline{\emph{TW}}_{k,r}$ indicates the normalized weight; $\omega_{k}$ indicates the local model recently uploaded by client \emph{k}; and $\omega_{r+1}$ indicates the global model updated in this global round.
+% equation
+\begin{equation}
+\omega_{r+1} \leftarrow \sum_{k=1}^{K}(\overline{\emph{TW}}_{k,r} \times \omega_k)
+\end{equation}
+%
+% equation
+\begin{equation}
+\left\{
+\begin{array}{lll}
+%\\
+\overline{TW}_{k,r} & = & \frac{TW_{k,r}}{TW_{r}}\\
+\\
+TW_{r} & = & \sum_{k=1}^{K} TW_{k,r}\\
+\\
+TW_{k,r} & = & (r-r_{k}+1)^{-\alpha},\alpha \in (0,1)\\
+%\\
+\end{array}
+\right.
+\end{equation}
+%
+	In addition, when using TW for each aggregation, the server calculate the total staleness of all clients. If the total staleness is higher than the threshold, the server will delegate the aggregated global model to all clients. The total staleness and threshold are defined by Formula (5), where $\emph{R}_k$ indicates the global round of the recently uploaded local model of client \emph{k}; \emph{r} indicates the global round of the current aggregated global model; \emph{k} indicates the number of clients, \emph{ts} indicates the total staleness of all clients; and \emph{trh} indicates the staleness threshold.
+% equation
+\begin{equation}
+\left\{
+\begin{array}{lll}
+%\\
+ts &=& \sum_{k=1}^{K} (r - R_{k})\\
+\\
+trh&=&2\times K \times \log_{2}{K} + 1\\
+%\\
+\end{array}
+\right.
+\end{equation}
+	In summary, TW aggregates the local model parameters recently uploaded by all clients in the current global round by manipulating a normalized weight, whose value will change according to the time gap between the start of training and uploading of the local model.
+%
+\subsubsection{3.4.2 DW:Datasize Weighted strategy}A high-quality dataset tends to improve the quality of model and the accuracy of prediction. The size of the dataset reflects the richness of data, which is the key factor to determine the quality of the model. Therefore, the size of the dataset used by the client to train the local model is a key factor to be considered when calculating the aggregation weight. The larger dataset used for training local model, the weight of the local model should be higher in the aggregation of global model.
+
+	Accordingly, DW is defined by Formula (6), where \emph{K} indicates the number of clients; $\emph{n}_{k,r}$ indicates the size of dataset used by client \emph{k} to train the local model, which is uploaded in the $r^{th}$ global round; $\emph{DW}_{k,r}$ indicates the calculated original weight, whose sum is $\emph{DW}_{r}$; $\overline{\emph{DW}}_{k,r}$ indicates the normalized weight; $\omega_k$ indicates the local model recently uploaded by client \emph{k}; and $\omega_{r+1}$ indicates the global model updated in this global round.
+% equation
+\begin{equation}
+\omega_{r+1} \leftarrow \sum_{k=1}^{K}(\overline{\emph{DW}}_{k,r} \times \omega_k)
+\end{equation}
+%
+% equation
+\begin{equation}
+\left\{
+\begin{array}{lll}
+%\\
+\overline{DW}_{k,r} & = & \frac{DW_{k,r}}{DW_{r}}\\
+\\
+DW_{r} & = & \sum_{k=1}^{K} DW_{k,r}\\
+\\
+DW_{k,r} & = & \frac{n_{k,r}}{n_{r}}\\
+\\
+\ \ \ n_{r}&=&\sum_{k=1}^{K}n_{k,r}
+%\\
+\end{array}
+\right.
+\end{equation}
+	In summary, DW aggregates the local model parameters recently uploaded by all clients in the current global round by manipulating a normalized weight, which will change according to the size of the dataset used by client to train the local model.
+%
+\subsubsection{3.4.3 IW:Information Weighed strategy}When the proportion of a certain kind of samples in the dataset is too large, the generalization performance of the model tends to deteriorate. Therefore, in addition to the size of the dataset, the proportion distribution of various samples in the dataset is also one of the key factors determining the quality of the model. When the proportion of all kinds of samples in the data set is more average, the generalization performance of the model is better. At the same time, the weight of the local model should also be higher in the aggregation of global model.  
+
+	Accordingly, IW is defined by Formula (7), where \emph{K} indicates the number of clients; $p_{i,k,r}$ indicates the data proportion of class \emph{i} in the dataset used for client \emph{k} to train local model uploaded in the $r^{th}$ global round; $\emph{IW}_{k,r}$ indicates the calculated original weight, whose sum is $\emph{IW}_{r}$; $\overline{\emph{IW}}_{k,r}$ indicates the normalized weight; $\omega_k$ indicates the local model recently uploaded by client \emph{k}; and $\omega_{r+1}$ indicates the global model updated in this global round.
+% equation
+\begin{equation}
+\omega_{r+1} \leftarrow \sum_{k=1}^{K}(\overline{\emph{IW}}_{k,r} \times \omega_k)
+\end{equation}
+%
+% equation
+\begin{equation}
+\left\{
+\begin{array}{lll}
+%\\
+\overline{IW}_{k,r} & = & \frac{IW_{k,r}}{IW_{r}}\\
+\\
+IW_{r} & = & \sum_{k=1}^{K} IW_{k,r}\\
+\\
+IW_{k,r} & = & -\sum_{i=1}^{l_{n}}(p_{i,k,r} \times \log_{2}{p_{i,k,r}})\\
+%\\
+\end{array}
+\right.
+\end{equation}
+	In summary, IW aggregates the local model parameters recently uploaded by all clients in the current global round by manipulating a normalized weight, which will change according to the distribution proportion of various samples in the dataset used by client to train the local model.
+%
+%
+\begin{algorithm}\small
+\caption{FedCD: Integrated with DW, TW, and IW} 
+\textbf{Initialization:}total round R\\
+\textbf{PART 1::}Executed in each AFL client
+
+\begin{algorithmic}[1]
+\FOR {each client $\emph{k} \in \emph{K}$ in parallel}
+	\STATE $\emph{r}_{k}$ $\leftarrow$ current global round of the client \emph{k} receiving the aggregated global model\\
+	\STATE $\omega_{k}$ is trained based on local dataset $\emph{D}_k$\\
+	\STATE $\emph{n}_k$ $\leftarrow $ datasize of the client \emph{k}\\
+	\STATE $\emph{p}_{k,i}$ $\leftarrow$ proportion of category \emph{i} in the local dataset $\emph{D}_k$\\
+\ENDFOR
+\STATE Uploading $\emph{$\omega$}_k$, $\emph{r}_k$, $\emph{n}_k$, and $\emph{p}_{k,i}$  to the server
+\end{algorithmic} 
+%
+\textbf{PART 2::}Executed in each AFL client
+
+\begin{algorithmic}[1]
+\STATE Calculating $\emph{trh}$ according to Formula (8);\\
+\FOR {r $\in$ R}
+	\STATE Receive $\emph{$\omega$}_k$, $\emph{r}_{k,r}$, $\emph{n}_{k,r}$, $\emph{p}_{k,i,r}$  from client \emph{k} in round \emph{r}\\
+	\STATE Calculating $\overline{\emph{TW}}_{k,r}$ according to Formula (7)\\
+	\STATE Calculating $\overline{\emph{DW}}_{k,r}$ according to Formula (10)\\
+	\STATE Calculating $\overline{\emph{IW}}_{k,r}$ according to Formula (12)\\
+	\STATE $\omega_{r+1} \leftarrow \sum_{k=1}^{K}(\overline{\emph{DW}}_{k,r} \times \overline{\emph{TW}}_{k,r} \times \overline{\emph{IW}}_{k,r} \times \omega_{k})$\\
+	\STATE Calculating $\emph{ts}, \emph{trh}$ according to Formula (8)\\
+	\STATE $\emph{r} \leftarrow current global round$\\
+	\IF{$\emph{ts} < \emph{trh}$}
+		\STATE $Devolve\ the\ \omega_{r+1}\ and\ \emph{r}\ to\ client\ \emph{k}$\\
+	\ELSE
+		\STATE $Devolve\ the\ \omega_{r+1}\ and\ \emph{r}\ to\ all\ clients$
+	\ENDIF
+\ENDFOR
+\end{algorithmic} 
+\end{algorithm}
+%
+\section{4. Evaluation and Discussion}
+In this Section, first, we discuss the common settings of the experiment, including the used datasets, the trained model, the selected baseline, evaluation metrics and the experimental environment. Secondly, we evaluate the effectiveness of the three weighted strategies, i,e., DW, TW, and IW under Multi-Devices environment and coarse-grained data. In addition, to evaluate the effectiveness of different weighted strategy combinations, we used weighted strategy combination i,e., TW-IW, DW-TW, DW-IW, and DW-TW-IW to conduct experiments. Finally, we evaluate the overall performance of the FedCD with three weighted strategies.
+\subsection{4.1 Common Settings}
+	\textbf{MNIST} contains 60000 training images and 10000 test images with 10 labels. The size of each image is 28$\times $28$\times $1. To reflect the non-IID and unbalanced data distribution, we divide the entire dataset into 20 blocks, each block contains 1500$-$2500 training samples and 2-6 classes. And each client possesses several blocks as the local dataset. Moreover, The two convolution layers of CNN model have 32 and 64 channels respectively, and the size of convolution kernel is 5$\times $5, followed by a 2$\times $2 max-pooling layer. The last layer is the full connection layer, followed by a softmax unit as the output layer.
+
+	\textbf{FMNIST} contains 60000 training images and 10000 test images with 10 labels. The size of each image is 28$\times $28$\times $1. Similar to MNIST, we divide the entire dataset into 30 blocks, each block contains 1600$-$2400 training samples and 2$-$6 classes. And each client possesses several blocks as the local dataset. Moreover, The three convolution layers of CNN model have 16, 32, and 64 channels respectively, which is followed by a BatchNorm layer, activate function Relu and 2$\times $2 Max-pooling layer. And the last layers are two full connection layers.
+	
+	\textbf{CIFAR-10} contains 50000 training images and 10000 test images with 10 labels. The size of each image is 32$\times $32$\times $3. Similar to MNIST and FMNIST, we divide the entire dataset into 30 blocks, each block contains 1600$-$2400 training samples and 2$-$6 classes. And each client possesses several blocks as the local dataset. Moreover, The three convolution layers of CNN model have 16, 32, and 64 channels respectively, which is followed by a BatchNorm layer, activate function Relu and 2$\times $2 Max-pooling layer. And the last layers are two full connection layers.
+
+\begin{figure}
+\centerline{\includegraphics[width=3.3in]{Multi-Device processing.png}}
+\caption{Multi-Devices deployment and communication process of FedCD.} \label{fig3}
+\end{figure}
+
+	Moreover, three state-of-the-art methods are used as the baselines, namely FedAvg~\cite{mcmahan2017communication}, FedAsync~\cite{xie2019asynchronous}, FedMPVA~\cite{chen2021asynchronous}, and the test accuracy, F1score, communication time and communication cost to achieve the target accuracy are used as the evaluation metrics.
+	In addition, we use the docker container to simulate that the clients are deployed in different devices. The communication mechanism between the clients and the server is described in Section 3.3. And the maximum communication time between the clients and the server during the experiment is 5000s. To reflect the coarse-grained data, the two clients possess one of the above data blocks and the other client possesses six data blocks for MNIST, and the two clients possess one of the above data blocks and the other client possesses ten data blocks for FMNIST and CIFAR-10.
+%
+\subsection{4.2 Evaluation of weighted strategy}
+
+\begin{figure*}
+\centerline{\includegraphics[width=7in]{eps2/cc_xr.eps}}
+\caption{The accuracy curve of FedCD with the CommunicationCost compared with different weighted strategies with the Coarse-gained data.} \label{fig4}
+\end{figure*}
+%
+\begin{figure*}
+\centerline{\includegraphics[width=7in]{eps2/ct_xr.eps}}
+\caption{The accuracy curve of FedCD with the CommunicationTime compared with different weighted strategies with the Coarse-gained data.} \label{fig5}
+\end{figure*}
+%
+\begin{figure}
+\centerline{\includegraphics[width=3in]{test1.png}}
+\caption{The comparison of normalized metrics of different weighted strategies and their combinations.
+	We normalize the data in Table~\ref{tab3}. which is multiplied by 0.9 and we set the data that cannot reach the target accuracy to 1. CC of MNIST means the Communication Cost reaching the target accuracy for MNIST and CT of MNIST means the Communication Time reaching the target accuracy for MNIST.} \label{fig6}
+\end{figure}
+%
+\begin{table*}\small
+\renewcommand{\arraystretch}{1}
+\setlength\tabcolsep{4pt}
+%\centering
+\caption{The metrics of different weighted strategies and their combinations.}\label{tab3}
+\centerline{\begin{tabular}{ c c  c  c  c  c  c  c }
+    \hline %\tabincell{c}{
+     \multirow{3}{*}{\tabincell{c}{Experimental\\Environment}} & \multirow{3}{*}{Method} & \multicolumn{3}{c}{Communication Time(s)} & \multicolumn{3}{c}{Communication Cost(MB)} \\
+    \cline{3-8}
+     & & MNIST & FMNIST & CIFAR-10 & MNIST & FMNIST & CIFAR-10 \\
+     & & (95\%) & (80\%) & (40\%) & (95\%) & (80\%) & (40\%)\\
+    \hline
+    \multirow{7}{*}{ Multi-Device } & DW & 2707.91 & 208.04 & 320.28 & 1077.95 & 33.39 & 24.08 \\
+    \cline{2-8}
+    & IW & 3791.47 & 1796.28 & 3734.37 & 1394.55 & 273.00 & 262.50 \\
+    \cline{2-8}
+    & TW & 3578.25 & $-$ & $-$ & 1465.15 & $-$ & $-$ \\
+    \cline{2-8}
+    & DW-IW & 4372.76 & 199.24 & 402.31 & 1102.35 & 31.44 & 28.50 \\
+    \cline{2-8}
+    & DW-TW & 2295.94 & 270.93 & 494.25 & 959.22 & 44.15 & 33.24 \\
+    \cline{2-8}
+    & TW-IW & 2782.89 & $-$ & $-$ & 887.79 & $-$ & $-$ \\
+    \cline{2-8}
+    & DW-TW-IW & 2477.96 & 239.14 & 462.09 & 1006.75 & 37.69 & 35.29 \\
+    \hline
+  \end{tabular}}
+\end{table*}
+\begin{table*}\small
+\renewcommand{\arraystretch}{1}
+\setlength\tabcolsep{4pt}
+%\centering
+\caption{The metrics of FedCD and three baselines.}\label{tab4}
+\centerline{\begin{tabular}{ c c  c  c  c  c  c  c }
+    \hline %\tabincell{c}{
+    \multirow{3}{*}{\tabincell{c}{Experimental\\Environment}} & \multirow{3}{*}{Method} & \multicolumn{3}{c}{Communication Time(s)} & \multicolumn{3}{c}{Communication Cost(MB)} \\
+    \cline{3-8}
+     & & MNIST & FMNIST & CIFAR-10 & MNIST & FMNIST & CIFAR-10 \\
+     & & (95\%) & (80\%) & (40\%) & (95\%) & (80\%) & (40\%)\\
+    \hline
+    \multirow{4}{*}{ Multi-Device } & FedAvg & 4640.20 & $-$ & 1621.70 & 1901.56 & $-$ & 34.99 \\
+    \cline{2-8}
+    & FedAsync & $-$ & $-$ & $-$ & $-$ & $-$ & $-$ \\
+    \cline{2-8}
+    & FedMPVA & 3640.34 & $-$ & $-$ & 1408.94 & $-$ & $-$ \\
+    \cline{2-8}
+    & \tabincell{c}{FedCD(DW-TW-IW)} & $\textbf{2477.96}$ & $\textbf{239.14}$ & $\textbf{462.09}$ & $\textbf{1006.75}$ & $\textbf{37.69}$ & $\textbf{35.29}$ \\
+    \hline
+  \end{tabular}}
+\end{table*}
+
+
+	First, as illustrated in Figure~\labelcref{fig4,fig5}, the three weighted strategies we proposed, namely DW, TW, and IW, can significantly improve the accuracy of the global model in MNIST. DW and IW can also significantly improve the accuracy of the global model in CIFAR-10 and FMNIST, but the accuracy does not significantly increase when only TW is utilized.
+	
+	Second, as illustrated in Figure~\labelcref{fig4,fig5}, utilizing four different weighted strategy combinations i.e., DW-IW, TW-IW, DW-TW, and DW-TW-IW, the accuracy of the global model is significantly improved in the three datasets. At the same time, we record the communication time and communication cost to achieve the target accuracy of the global model in the three datasets, i.e., 95\% for MNIST, 80\% for FMNIST, and 40\% for CIFAR-10 respectively.  To compare the performance of different weighted strategies and their combinations more clearly, we draw the normalized data of Table~\ref{tab3} into Figure~\ref{fig6} and indicate the ranges of the combination including DW and not including DW. As illustrated in Figure~\ref{fig6}, the performance of the weighted strategy combination including DW is significantly better than that of other combinations.
+	
+	Finally, as illustrated in Figure~\ref{fig6}, compared with utilizing a certain weighted strategy alone or utilizing a combination of two weighted strategies, utilizing three weighted strategies together has a more stable improvement on the global model.	
+%
+%
+%
+\subsection{4.3 Evaluation of FedCD}
+By utilizing DW, TW, and IW together, FedCD can achieve the optimal performance compared with the three baselines, namely:
+\begin{itemize}
+	\item As illustrated in Figure~\labelcref{fig7,fig8}, within each of the three datasets, FedCD can maintain a sharper and stable accuracy curve. In MNIST and FMNIST, FedCD outperform the three baselines consistently throughout the learning process, and it can gradually outperform the three baselines in the learning process in CIFAR-10.
+%
+	\item As illustrated in Figure~\ref{fig9}, after reaching the maximum communication time, the F1score of the global model of FedCD is significantly better than the three baselines in all three datasets. Specially, the f1score of all kinds of data is relatively uniform and high with coarse-grained data, which shows the effectiveness of our proposed weighted strategy combination with coarse-grained data.
+%
+	\item As shown in Table~\ref{tab4}, in MNIST, compared with FedAvg and FedMPVA, FedCD can reduce the communication time to reach the target accuracy by about 46.6\% and 31.9\% respectively, and reduce the communication cost to reach the target accuracy by about 47.1\% and 32.0\% respectively. Moreover, in CIFAR-10, compared with FedAvg, FedCD can reduce the communication time to reach the target accuracy by about 63.3\%. In particular, only FedCD can reach the target accuracy within the maximum communication time in FMNIST.
+\end{itemize}
+In summary, the above evaluation results reveal the efficiency and effectiveness of FedCD in supporting AFL by using three weighted strategies, i.e., DW, TW, and IW.\\
+\begin{figure*}
+\centerline{\includegraphics[width=7in]{eps2/cc_db.eps}}
+\caption{The accuracy curve of FedCD with the CommunicationCost compared with three baselines in MNIST, CIFAR-10, and FMNIST with the Coarse-gained data.} \label{fig7}
+\end{figure*}
+%
+\begin{figure*}
+\centerline{\includegraphics[width=7in]{eps2/ct_db.eps}}
+\caption{The accuracy curve of FedCD with the CommunicationTime compared with three baselines in MNIST, CIFAR-10, and FMNIST with the Coarse-gained data.} \label{fig8}
+\end{figure*}
+%
+\begin{figure*}
+\centerline{\includegraphics[width=7in]{eps2/heatmap_db.eps}}
+\caption{The F1score heatmap of various samples reaching the specified CommunicaitonTime of FedCD compared with the three baselines in MNIST, FMNIST, and CIFAR-10 with the Coarse-gained data.} \label{fig9}
+\end{figure*}
+%
+\subsection{4.4 Discussion}
+
+	First, the results of utilizing different weighted strategies and their combinations indicate that the DW and IW proposed by us are effective with coarse-grained data, but the effect of TW is not obvious with coarse-grained data. We believe that this is an experiment with coarse-grained data, compared with the other two heterogeneity mentioned in Section 2.1, the impact of time heterogeneity on aggregation is very small. So using TW alone cannot effectively aggregate the global model.
+	
+	Second, the performance of weighted strategy combination including DW is better than that of other combinations, which indicates that under condition of coarse-grained data, the datasize heterogeneity has a significant impact on the effective aggregation of global models. In the future, we should pay more attention to the datasize heterogeneity of AFL.
+	
+	Third, the performance of the combination of three weighted strategies is slightly worse than the performance of DW-IW. The reason we analyze is that the local model trained by the client with more data has better performance, and its weight should be higher during aggregation, but it also takes a longer time to train, which makes it staler than other local models. Due to the use of TW, the weight of the model with better performance will be reduced during aggregation, resulting in slower convergence of the global model. Based on this problem, in the future, we should pay more attention to the combination of different weighted strategies and try to design a weighted strategy for using different weighted strategies.
+	
+	Finally, FedCD, which integrates three weighted strategies, can achieve optimal performance compared with the three baselines in terms of accuracy improvement and training efficiency. The result shows that FedCD can deal with AFL problem in coarse-grained data.
+%
+\section{6. Conclusions}
+
+	In this paper, we propose an asynchronous federated learning method considering coarse-grained data, called FedCD. In FedCD, clients and server can upload local models and delegate global models under the Multi-Devices environment. To make the global model converge quickly and effectively, we propose three weighted aggregation strategies: (1) Datasize weighted strategy; (2) Time weighted strategy; and (3) Information weighted strategy.
+	
+	Based on the MNIST, FMNIST and CIFAR-10 standard dataset, we evaluate the effectiveness and superiority of FedCD using three weighted strategies. The results show that compared with FedAvg, FedAsync, and FedMPVA, the metrics of FedCD are better than the three baseline models.
+	
+	In the future, FedCD can consider adding the strategy of model hierarchical aggregation to ensure the improvement of model performance while reducing CommunicationCost. At the same time, it can also explore more weight strategies conducive to global model convergence.
+
+\subsubsection{Acknowledgements} This research was funded by the National Natural Science Foundation of China grant number 62002398.
+
+
+% Second level heading
+%\subsection{}
+
+% Third level heading
+%\subsubsection{}
+
+% Fourth level heading
+%\paragraph{}
+
+% Fourth level heading
+%\subparagraph{}
+
+% Numbered equation
+%\begin{eqnarray}
+%\end{eqnarray}
+
+% Itemized list
+%\begin{itemize}
+%  \item 
+%  \item 
+%  \item 
+%\end{itemize}
+
+% Numbered list
+%\begin{enumerate}
+	%\item 
+	%\item 
+	%\item 
+%\end{enumerate}
+
+% Bibliography style - if using a .bib file
+	%\bibliographystyle{hindawi_bib_style}
+	%\bibliography{<bib file name>} % without .bib extension
+  
+  %Or
+  
+ % \begin{thebibliography}{00}
+  %\bibitem{b1}
+% 		J. Bruix and M. Sherman, ``Management of hepatocellular carcinoma: 
+%		an update'', \textit{Hepatology}, vol. 53, no. 3, pp. 1020--1022, 2011.
+ 
+ %  \bibitem{b2}
+		% ...
+
+ %  \bibitem{b3}
+		% ...
+ 
+% \end{thebibliography}  
+
+\bibliographystyle{splncs04}
+\bibliography{mybibliography}
+
+\end{document}
