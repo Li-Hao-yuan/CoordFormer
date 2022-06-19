@@ -1,0 +1,33 @@
+
+ARGS:
+ tab: 'process_video'
+ gpu: 4,5
+
+ predict: True
+ backbone: 'hrnet'
+ model_precision: 'fp32'
+ val_batch_size: 1
+ data_slide_len: 3
+ nw: 4
+ model_path:  trained_models/hrnet_cm64_V1_hrnet_val_cache.pkl #trained_models/ROMP_HRNet32_V1.pkl #
+ #模型貌似只能放在 trained_models 下才能读取到
+ smpl_mesh_root_align: False
+ centermap_conf_thresh: 0.2
+
+ to_frame: False
+ make_tracking: False
+ temporal_optimization: False
+ smooth_coeff: 4.
+ show_largest_person_only: False
+ show_mesh_stand_on_image: True
+ soi_camera: 'far' # 'close' # 'far'
+ renderer: 'pyrender' # 'pyrender' 'pytorch3d'
+
+ inputs: 'D:\\3D\\lihaoyuan\\vomp\\ROMP\\demo\\videos\\3dpw.mp4' # None
+ output_dir: 'D:\\3D\\lihaoyuan\\vomp\\ROMP\\demo\\sample_video_results\\'
+ save_mesh: True
+ save_centermap: True
+ save_dict_results: True
+ save_visualization_on_img: True
+ fps_save: 24
+ mesh_cloth: 'ghostwhite'  #'LightCyan'
