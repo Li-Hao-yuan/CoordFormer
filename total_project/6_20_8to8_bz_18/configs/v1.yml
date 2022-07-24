@@ -1,0 +1,71 @@
+
+ARGS:
+ video : True
+ tab: 'V1_hrnet' 
+ dataset: 'pw3d,h36m'  
+ #'mpii,h36m,mpiinf,coco,mpii,lsp,muco,crowdpose'
+ GPUS: 4
+ distributed_training: False
+ model_version: 1
+ pretrain: 'imagenet'
+ match_preds_to_gts_for_supervision: True
+ epoch: 50   ################################ epoch here
+ epoch_begin: 0
+ save_visualization_on_img: True  ##服务器上开不了
+ # renderer: 'pyrender' # pytorch3d / pyrender
+
+ predict: True
+ force_centermap_loss: False
+ master_batch_size: -1
+ print_freq: 30 # 30
+ val_batch_size: 18 # 12
+ val_print_size: 120 # 50
+ batch_size: 18 # 18
+ data_slide_len: 8 #8
+ data_gate: 1 
+ nw: 8 # 8
+ nw_eval: 8 # 4
+ lr: 0.00005 #0.00005
+
+ fine_tune: False # True
+ fix_backbone_training_scratch: False
+ eval: False
+ supervise_global_rot: False
+
+ model_return_loss: False
+ collision_aware_centermap: True
+ collision_factor: 0.2
+ homogenize_pose_space: False # True
+ shuffle_crop_mode: True
+ shuffle_crop_ratio_2d: 0.1
+ shuffle_crop_ratio_3d: 0.4
+
+ merge_smpl_camera_head: False
+ head_block_num: 2
+
+ backbone: 'resnet'
+ centermap_size: 64
+ centermap_conf_thresh: 0.2
+
+ model_path: '/home/lihaoyuan/vomp/checkpoints/resnet_cm64_V1_hrnet_on_gpu0_val/resnet_cm64_V1_hrnet_val_cache.pkl'
+ optim_path:  None #'/home/lihaoyuan/vomp/checkpoints/hrnet_cm64_V1_hrnet_on_gpu0_val/optimizer.npy'
+
+loss_weight:
+  MPJPE: 200.
+  PAMPJPE: 360.
+  P_KP2D: 400.
+  Pose: 280. #80
+  Shape: 36. # 6
+  Prior: 1.6
+  CenterMap: 160. # 160
+
+sample_prob:
+ h36m: 0.85 # 0.2 0.85
+ mpiinf: 0. # 0.16
+ coco: 0. # 0.2
+ lsp: 0. # 0.06
+ mpii: 0. # 0.1
+ muco: 0. # 0.14
+ crowdpose: 0. # 0.14
+
+ pw3d: 0.15 #0.00
