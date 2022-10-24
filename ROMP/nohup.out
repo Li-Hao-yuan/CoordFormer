@@ -1,0 +1,74 @@
+Traceback (most recent call last):
+  File "/data/lihaoyuan/anaconda3/envs/vomp/lib/python3.8/runpy.py", line 192, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/data/lihaoyuan/anaconda3/envs/vomp/lib/python3.8/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/data1/lihaoyuan/vomp/ROMP/romp/test.py", line 3, in <module>
+    from .base import *
+  File "/data1/lihaoyuan/vomp/ROMP/romp/base.py", line 25, in <module>
+    from visualization.visualization import Visualizer
+  File "/data1/lihaoyuan/vomp/ROMP/romp/lib/models/../utils/../visualization/visualization.py", line 19, in <module>
+    from .web_vis import write_to_html, convert_3dpose_to_line_figs, convert_image_list
+  File "/data1/lihaoyuan/vomp/ROMP/romp/lib/models/../utils/../visualization/web_vis.py", line 3, in <module>
+    from plotly.graph_objs.scatter import Line
+  File "<frozen importlib._bootstrap>", line 988, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 148, in __enter__
+  File "<frozen importlib._bootstrap>", line 176, in _get_module_lock
+KeyboardInterrupt
+INFO:root:{'tab': 'hrnet_cm64_Video_predict', 'configs_yml': 'configs/my_predict.yml', 'inputs': 'D:/3D/lihaoyuan/vomp/ROMP/demo/videos/3dpw.mp4', 'output_dir': 'D:/3D/lihaoyuan/vomp/ROMP/demo/sample_video_results/', 'interactive_vis': False, 'show_largest_person_only': False, 'show_mesh_stand_on_image': False, 'surrounding_camera': False, 'soi_camera': 'far', 'make_tracking': False, 'temporal_optimization': False, 'save_dict_results': False, 'save_visualization_on_img': True, 'fps_save': 24, 'character': 'smpl', 'renderer': 'pyrender', 'f': None, 'video': True, 'model_return_loss': False, 'model_version': 3, 'multi_person': True, 'new_training': False, 'perspective_proj': False, 'FOV': 60, 'focal_length': 443.4, 'lr': 0.0003, 'adjust_lr_factor': 0.1, 'weight_decay': 1e-06, 'epoch': 120, 'fine_tune': True, 'GPUS': '0', 'batch_size': 1, 'input_size': 512, 'master_batch_size': -1, 'nw': 3, 'optimizer_type': 'Adam', 'pretrain': 'simplebaseline', 'fix_backbone_training_scratch': False, 'force_centermap_loss': False, 'epoch_begin': 0, 'pretrain_on_image': False, 'data_gate': 1, 'test_after_pa': False, 'rand_crop_enhance': False, 'src_len': 64, 'tgt_len': 64, 'emb_size': 64, 'forward_dim': 1024, 'dk': 64, 'dv': 64, 'trans_layer': 8, 'trans_heads': 4, 'predict': True, 'backbone': 'hrnet', 'model_precision': 'fp16', 'deconv_num': 0, 'head_block_num': 2, 'merge_smpl_camera_head': False, 'use_coordmaps': True, 'hrnet_pretrain': '/data1/lihaoyuan/vomp/ROMP/trained_models/pretrain_hrnet.pkl', 'resnet_pretrain': '/data1/lihaoyuan/vomp/ROMP/trained_models/pretrain_resnet.pkl', 'loss_thresh': 1000, 'max_supervise_num': -1, 'supervise_cam_params': False, 'match_preds_to_gts_for_supervision': False, 'matching_mode': 'all', 'supervise_global_rot': False, 'HMloss_type': 'MSE', 'eval': False, 'eval_datasets': 'pw3d', 'val_batch_size': 8, 'val_print_size': 64, 'test_interval': 4000, 'fast_eval_iter': -1, 'top_n_error_vis': 6, 'eval_2dpose': False, 'calc_pck': False, 'PCK_thresh': 150, 'calc_PVE_error': False, 'centermap_size': 64, 'centermap_conf_thresh': 0.2, 'collision_aware_centermap': False, 'collision_factor': 0.2, 'center_def_kp': True, 'local_rank': 0, 'distributed_training': False, 'distillation_learning': False, 'teacher_model_path': '/export/home/suny/CenterMesh/trained_models/3dpw_88_57.8.pkl', 'print_freq': 30, 'model_path': 'D:/3D/lihaoyuan/vomp/checkpoints/resnet_cm64_V1_hrnet_on_gpu0_val/hrnet_cm64_hrnet_coord_trans_epoch_4.pkl', 'optim_path': '', 'log_path': '/data1/lihaoyuan/vomp/log/', 'learn_2dpose': False, 'learn_AE': False, 'learn_kp2doffset': False, 'shuffle_crop_mode': False, 'shuffle_crop_ratio_3d': 0.9, 'shuffle_crop_ratio_2d': 0.1, 'Synthetic_occlusion_ratio': 0, 'color_jittering_ratio': 0.2, 'rotate_prob': 0.2, 'dataset_rootdir': '/data1/lihaoyuan/vomp/dataset/', 'dataset': 'h36m,mpii,coco,aich,up,ochuman,lsp,movi', 'voc_dir': '/data1/lihaoyuan/vomp/dataset/VOCdevkit/VOC2012/', 'max_person': 64, 'homogenize_pose_space': False, 'use_eft': True, 'data_slide_len': 8, 'to_frame': True, 'smpl_mesh_root_align': True, 'Rot_type': '6D', 'rot_dim': 6, 'cam_dim': 3, 'beta_dim': 10, 'smpl_joint_num': 22, 'smpl_model_path': '/data1/lihaoyuan/vomp/ROMP/model_data/parameters', 'smpl_J_reg_h37m_path': '/data1/lihaoyuan/vomp/ROMP/model_data/parameters/J_regressor_h36m.npy', 'smpl_J_reg_extra_path': '/data1/lihaoyuan/vomp/ROMP/model_data/parameters/J_regressor_extra.npy', 'smpl_uvmap': '/data1/lihaoyuan/vomp/ROMP/model_data/parameters/smpl_vt_ft.npz', 'wardrobe': '/data1/lihaoyuan/vomp/ROMP/model_data/wardrobe', 'mesh_cloth': '031', 'nvxia_model_path': '/data1/lihaoyuan/vomp/ROMP/model_data/characters/nvxia', 'track_memory_usage': False, 'adjust_lr_epoch': [], 'kernel_sizes': [5], 'video_dataset': 'pw3d', 'predict_video': True, 'output_html': False, 'save_mesh': False, 'save_kp2d': False, 'save_centermap': False, 'video_sample_prob_dict': {'pw3d': 1.0}}
+INFO:root:------------------------------------------------------------------
+INFO:root:Loading pyrender renderer as visualizer
+INFO:OpenGL.acceleratesupport:OpenGL_accelerate module loaded
+INFO:OpenGL.arrays.arraydatatype:Using accelerated ArrayDatatype
+Traceback (most recent call last):
+  File "/data1/lihaoyuan/anaconda3/envs/vomp/lib/python3.8/site-packages/pyglet/__init__.py", line 336, in __getattr__
+    return getattr(self._module, name)
+AttributeError: 'NoneType' object has no attribute 'Window'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data1/lihaoyuan/anaconda3/envs/vomp/lib/python3.8/site-packages/pyglet/__init__.py", line 336, in __getattr__
+    return getattr(self._module, name)
+AttributeError: 'NoneType' object has no attribute '_create_shadow_window'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data1/lihaoyuan/anaconda3/envs/vomp/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/data1/lihaoyuan/anaconda3/envs/vomp/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/data1/lihaoyuan/vomp/ROMP/romp/my_predict.py", line 196, in <module>
+    main()
+  File "/data1/lihaoyuan/vomp/ROMP/romp/my_predict.py", line 191, in main
+    Predictor = Mypredict()
+  File "/data1/lihaoyuan/vomp/ROMP/romp/my_predict.py", line 31, in __init__
+    super(Mypredict, self).__init__()
+  File "/data1/lihaoyuan/vomp/ROMP/romp/base.py", line 37, in __init__
+    self.visualizer = Visualizer(resolution=(512,512), result_img_dir=self.result_img_dir, renderer_type=self.renderer)
+  File "/data1/lihaoyuan/vomp/ROMP/romp/lib/models/../utils/../visualization/visualization.py", line 34, in __init__
+    from .renderer_pyrd import get_renderer
+  File "/data1/lihaoyuan/vomp/ROMP/romp/lib/models/../utils/../visualization/renderer_pyrd.py", line 1, in <module>
+    import pyrender
+  File "/data1/lihaoyuan/anaconda3/envs/vomp/lib/python3.8/site-packages/pyrender/__init__.py", line 12, in <module>
+    from .viewer import Viewer
+  File "/data1/lihaoyuan/anaconda3/envs/vomp/lib/python3.8/site-packages/pyrender/viewer.py", line 38, in <module>
+    class Viewer(pyglet.window.Window):
+  File "/data1/lihaoyuan/anaconda3/envs/vomp/lib/python3.8/site-packages/pyglet/__init__.py", line 342, in __getattr__
+    __import__(import_name)
+  File "/data1/lihaoyuan/anaconda3/envs/vomp/lib/python3.8/site-packages/pyglet/window/__init__.py", line 1919, in <module>
+    gl._create_shadow_window()
+  File "/data1/lihaoyuan/anaconda3/envs/vomp/lib/python3.8/site-packages/pyglet/__init__.py", line 342, in __getattr__
+    __import__(import_name)
+  File "/data1/lihaoyuan/anaconda3/envs/vomp/lib/python3.8/site-packages/pyglet/gl/__init__.py", line 95, in <module>
+    from pyglet.gl.gl import *
+  File "/data1/lihaoyuan/anaconda3/envs/vomp/lib/python3.8/site-packages/pyglet/gl/gl.py", line 45, in <module>
+    from pyglet.gl.lib import link_GL as _link_function
+  File "/data1/lihaoyuan/anaconda3/envs/vomp/lib/python3.8/site-packages/pyglet/gl/lib.py", line 149, in <module>
+    from pyglet.gl.lib_glx import link_GL, link_GLU, link_GLX
+  File "/data1/lihaoyuan/anaconda3/envs/vomp/lib/python3.8/site-packages/pyglet/gl/lib_glx.py", line 46, in <module>
+    glu_lib = pyglet.lib.load_library('GLU')
+  File "/data1/lihaoyuan/anaconda3/envs/vomp/lib/python3.8/site-packages/pyglet/lib.py", line 168, in load_library
+    raise ImportError('Library "%s" not found.' % names[0])
+ImportError: Library "GLU" not found.

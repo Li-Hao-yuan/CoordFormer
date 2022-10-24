@@ -1,0 +1,52 @@
+
+ARGS:
+ video : True
+ tab: 'process_video'
+ gpu: 4,5
+
+ predict_video: True
+ pretrain_on_image: False
+ backbone: 'hrnet'
+ model_version: 1
+ batch_size: 1
+ val_batch_size: 8
+ data_slide_len: 8
+ nw: 3
+ model_path:  '/data1/lihaoyuan/vomp/checkpoints/hrnet_cm64_no_3dpw_on_gpu4,5_val/hrnet_with_3dpw_epoch_2.pkl'
+ # /data1/lihaoyuan/vomp/checkpoints/hrnet_cm64_no_3dpw_on_gpu4,5_val/hrnet_with_3dpw_epoch_2.pkl
+ # /data1/lihaoyuan/vomp/checkpoints/hrnet_cm64_no_3dpw_on_gpu4,5_val/hrnet_no_3dpw_image_epoch25.pkl
+ # /data1/lihaoyuan/vomp/checkpoints/hrnet_cm64_no_3dpw_on_gpu4,5_val/hrnet_no_3dpw_video_epoch1.pkl
+ # /data1/lihaoyuan/vomp/ROMP/trained_models/ROMP_HRNet32_V1_ft_3DPW.pkl
+
+ smpl_mesh_root_align: True ###
+ centermap_conf_thresh: 0.2
+
+ to_frame: True
+ make_tracking: False
+ temporal_optimization: False
+ smooth_coeff: 4.
+ show_largest_person_only: False
+ soi_camera: 'far' # 'close' # 'far'
+ renderer: 'pytorch3d' # 'pyrender' 'pytorch3d'
+ using_GT_plot: False
+
+ # 3dpw | sample_video | bev_test
+ inputs: '/home/lihaoyuan/vomp/ROMP/demo/videos/3dpw.mp4' # None
+
+ output_dir: '/home/lihaoyuan/vomp/ROMP/demo/sample_video_results/'
+
+#  other_view: "back" # "up" "left", "right", "back"
+#  output_dir: '/home/lihaoyuan/vomp/ROMP/demo/other_view/back/'
+
+ save_mesh: False
+ save_centermap: True
+ save_dict_results: False
+ show_mesh_stand_on_image: False
+ save_visualization_on_img: True
+ fps_save: 24
+ FOV: 60
+ mesh_cloth: 'ghostwhite'  #'LightCyan'
+
+
+
+# get GT result: 1) predict_video

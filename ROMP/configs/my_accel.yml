@@ -1,0 +1,33 @@
+
+ARGS:
+ tab: 'Video_predict'
+ video_dataset: 'pw3d'
+ GPUS: 0
+ model_version: 1
+ renderer: 'pytorch3d'
+
+ batch_size: 1
+ val_batch_size: 8
+ val_print_size: 50
+ data_slide_len: 8
+ nw: 3
+ fine_tune: True
+
+ backbone: 'hrnet'
+ centermap_size: 64
+ centermap_conf_thresh: 0.2
+
+ output_html: False
+ save_mesh: False # save mesh obj
+ save_kp2d: False
+ save_centermap: False
+ save_dict_results: False
+ save_visualization_on_img: False
+
+ model_path: '/data1/lihaoyuan/vomp/checkpoints/hrnet_cm64_no_3dpw_on_gpu4,5_val/hrnet_no_3dpw_video_epoch1.pkl'
+
+video_sample_prob:
+ pw3d: 1.0
+
+
+
